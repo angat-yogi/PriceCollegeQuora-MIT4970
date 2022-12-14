@@ -8,6 +8,7 @@ import com.angat.askmeanything.data.remote.ApiClient;
 import com.angat.askmeanything.data.remote.ApiService;
 import com.angat.askmeanything.data.remote.Repository;
 import com.angat.askmeanything.feature.auth.LoginViewModel;
+import com.angat.askmeanything.feature.postupload.PostUploadViewModel;
 import com.angat.askmeanything.feature.profile.ProfileViewModel;
 
 public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
@@ -26,7 +27,10 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             return (T) new LoginViewModel(repository);
         } else if (modelClass.isAssignableFrom(ProfileViewModel.class)) {
             return (T) new ProfileViewModel(repository);
-        } else {
+        } else if(modelClass.isAssignableFrom(PostUploadViewModel.class)){
+            return (T) new PostUploadViewModel(repository);
+        }
+        else{
             throw new IllegalArgumentException("View Model not found");
         }
 
