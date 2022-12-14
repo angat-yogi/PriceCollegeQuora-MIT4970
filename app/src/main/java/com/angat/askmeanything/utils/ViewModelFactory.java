@@ -10,6 +10,8 @@ import com.angat.askmeanything.data.remote.Repository;
 import com.angat.askmeanything.feature.auth.LoginViewModel;
 import com.angat.askmeanything.feature.auth.homepage.MainViewModel;
 import com.angat.askmeanything.feature.auth.homepage.friends.FriendsViewModel;
+import com.angat.askmeanything.feature.auth.homepage.newsfeed.NewsFeedViewModel;
+import com.angat.askmeanything.feature.auth.homepage.newsfeed.NewsLoadActivity;
 import com.angat.askmeanything.feature.postupload.PostUploadViewModel;
 import com.angat.askmeanything.feature.profile.ProfileViewModel;
 import com.angat.askmeanything.feature.search.SearchViewModel;
@@ -41,6 +43,9 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         }
         else if(modelClass.isAssignableFrom(FriendsViewModel.class)){
             return (T) new FriendsViewModel(repository);
+        }
+        else if(modelClass.isAssignableFrom(NewsFeedViewModel.class)){
+            return (T) new NewsFeedViewModel(repository);
         }
         else{
             throw new IllegalArgumentException("View Model not found");

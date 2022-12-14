@@ -1,4 +1,4 @@
-package com.angat.askmeanything.feature.postupload.post;
+package com.angat.askmeanything.model.post;
 
 import com.google.gson.annotations.SerializedName;
 

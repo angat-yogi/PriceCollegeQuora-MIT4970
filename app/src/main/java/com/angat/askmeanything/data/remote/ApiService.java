@@ -1,7 +1,7 @@
 package com.angat.askmeanything.data.remote;
 
 import com.angat.askmeanything.feature.auth.LoginActivity;
-import com.angat.askmeanything.feature.postupload.post.PostResponse;
+import com.angat.askmeanything.model.post.PostResponse;
 import com.angat.askmeanything.feature.profile.ProfileActivity;
 import com.angat.askmeanything.model.GeneralResponse;
 import com.angat.askmeanything.model.auth.AuthResponse;

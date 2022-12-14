@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.angat.askmeanything.data.remote.Repository;
-import com.angat.askmeanything.feature.postupload.post.PostResponse;
+import com.angat.askmeanything.model.post.PostResponse;
 import com.angat.askmeanything.model.friend.FriendResponse;
 
 

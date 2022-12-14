@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.angat.askmeanything.R;
 import com.angat.askmeanything.data.remote.ApiClient;
-import com.angat.askmeanything.feature.postupload.post.PostsItem;
+import com.angat.askmeanything.model.post.PostsItem;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -96,7 +96,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             privacyIcon = itemView.findViewById(R.id.privacy_icon);
             statusImage = itemView.findViewById(R.id.post_image);
             datePosted = itemView.findViewById(R.id.date_posted);
-            post = itemView.findViewById(R.id.post_main);
+            post = itemView.findViewById(R.id.post_user);
 
 
 

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.angat.askmeanything.R;
 import com.angat.askmeanything.feature.auth.homepage.MainViewModel;
-import com.angat.askmeanything.feature.postupload.post.PostsItem;
+import com.angat.askmeanything.model.post.PostsItem;
 
 import java.util.List;
 
