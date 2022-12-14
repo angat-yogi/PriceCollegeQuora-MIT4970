@@ -10,11 +10,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.angat.askmeanything.R;
 import com.angat.askmeanything.feature.auth.homepage.friends.FriendsFragment;
+import com.angat.askmeanything.feature.auth.homepage.friends.FriendsLoadActivity;
 import com.angat.askmeanything.feature.auth.homepage.newsfeed.NewsFeedFragment;
+import com.angat.askmeanything.feature.auth.homepage.newsfeed.NewsLoadActivity;
 import com.angat.askmeanything.feature.postupload.PostUploadActivity;
 import com.angat.askmeanything.feature.profile.ProfileActivity;
 import com.angat.askmeanything.feature.search.SearchActivity;
@@ -28,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private NewsFeedFragment newsFeedFragment;
     private FloatingActionButton fab;
     private Toolbar toolbarSearch;
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         toolbarSearch=findViewById(R.id.toolbar_search);
         friendsFragment = new FriendsFragment();
         newsFeedFragment = new NewsFeedFragment();
+        progressBar = findViewById(R.id.progressbar);
         setFragment(newsFeedFragment);
         setBottomNavigationView();
 
@@ -60,10 +66,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.newsFeedFragment:
-                        setFragment(newsFeedFragment);
+                        startActivity(new Intent(MainActivity.this, NewsLoadActivity.class).putExtra("uid", FirebaseAuth.getInstance().getUid()));
                         return true;
                     case R.id.friendFragment:
-                        setFragment(friendsFragment);
+                        startActivity(new Intent(MainActivity.this, FriendsLoadActivity.class).putExtra("uid", FirebaseAuth.getInstance().getUid()));
                         return true;
                     case R.id.profileActivity:
                         startActivity(new Intent(MainActivity.this, ProfileActivity.class).putExtra("uid", FirebaseAuth.getInstance().getUid()));
@@ -77,5 +83,12 @@ public class MainActivity extends AppCompatActivity {
     private void setFragment(Fragment fragment){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout,fragment).commit();
+    }
+
+    public void showProgressbar(){
+        progressBar.setVisibility(View.VISIBLE);
+    }
+    public void hideProgressbar(){
+        progressBar.setVisibility(View.GONE);
     }
 }

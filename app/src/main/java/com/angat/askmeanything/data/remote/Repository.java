@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.angat.askmeanything.feature.auth.LoginActivity;
+import com.angat.askmeanything.feature.postupload.post.PostResponse;
+import com.angat.askmeanything.feature.profile.ProfileActivity;
 import com.angat.askmeanything.model.GeneralResponse;
 import com.angat.askmeanything.model.auth.AuthResponse;
+import com.angat.askmeanything.model.friend.FriendResponse;
 import com.angat.askmeanything.model.profile.Profile;
 import com.angat.askmeanything.model.profile.ProfileResponse;
 import com.angat.askmeanything.model.search.SearchResponse;
@@ -183,6 +186,115 @@ public class Repository {
         });
 
         return searchInfo;
+    }
+    public LiveData<FriendResponse> loadFriends(String uid){
+        MutableLiveData<FriendResponse> searchInfo = new MutableLiveData<>();
+        Call<FriendResponse> call = apiService.loadFriends(uid);
+        call.enqueue(new Callback<FriendResponse>() {
+            @Override
+            public void onResponse(Call<FriendResponse> call, Response<FriendResponse> response) {
+                if (response.isSuccessful()){
+                    searchInfo.postValue(response.body());
+                }
+                else   {
+                    Gson gson = new Gson();
+                    FriendResponse friendResponse = null;
+                    try {
+                        friendResponse=gson.fromJson(response.errorBody().string(),FriendResponse.class);
+
+                    }catch (IOException e){
+                        ApiError.ErrorMessage errorMessage = ApiError.getErrorFromException(e);
+                        friendResponse=new FriendResponse(errorMessage.message,errorMessage.status);
+
+                    }
+
+                    searchInfo.postValue(friendResponse);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FriendResponse> call, Throwable t) {
+                ApiError.ErrorMessage errorMessage = ApiError.getErrorFromThrowable(t);
+                FriendResponse searchResponse = new FriendResponse(errorMessage.message,errorMessage.status);
+                searchInfo.postValue(searchResponse);
+            }
+        });
+
+        return searchInfo;
+    }
+
+    public LiveData<GeneralResponse> performOperation(ProfileActivity.PerformAction performAction){
+        MutableLiveData<GeneralResponse> searchInfo = new MutableLiveData<>();
+        Call<GeneralResponse> call = apiService.performAction(performAction);
+        call.enqueue(new Callback<GeneralResponse>() {
+            @Override
+            public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
+                if (response.isSuccessful()){
+                    searchInfo.postValue(response.body());
+                }
+                else   {
+                    Gson gson = new Gson();
+                    GeneralResponse generalResponse = null;
+                    try {
+                        generalResponse=gson.fromJson(response.errorBody().string(),GeneralResponse.class);
+
+                    }catch (IOException e){
+                        ApiError.ErrorMessage errorMessage = ApiError.getErrorFromException(e);
+                        generalResponse=new GeneralResponse(errorMessage.message,errorMessage.status);
+
+                    }
+
+                    searchInfo.postValue(generalResponse);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GeneralResponse> call, Throwable t) {
+                ApiError.ErrorMessage errorMessage = ApiError.getErrorFromThrowable(t);
+                GeneralResponse generalResponse = new GeneralResponse(errorMessage.message,errorMessage.status);
+                searchInfo.postValue(generalResponse);
+            }
+        });
+
+        return searchInfo;
+    }
+    public LiveData<PostResponse> getNewsFeed(Map<String,String> params){
+        MutableLiveData<PostResponse> post = new MutableLiveData<>();
+        Call<PostResponse> call = apiService.getNewsFeed(params);
+        call.enqueue(new Callback<PostResponse>() {
+            @Override
+            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+                if (response.isSuccessful()){
+                    post.postValue(response.body());
+                }
+                else   {
+                    Gson gson = new Gson();
+                    PostResponse postResponse = null;
+                    try {
+                        postResponse=gson.fromJson(response.errorBody().string(),PostResponse.class);
+
+                    }catch (IOException e){
+                        ApiError.ErrorMessage errorMessage = ApiError.getErrorFromException(e);
+                        postResponse=new PostResponse(errorMessage.message,errorMessage.status);
+
+                    }
+
+                    post.postValue(postResponse);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostResponse> call, Throwable t) {
+                ApiError.ErrorMessage errorMessage = ApiError.getErrorFromThrowable(t);
+                PostResponse postResponse = new PostResponse(errorMessage.message,errorMessage.status);
+                post.postValue(postResponse);
+            }
+        });
+
+        return post;
     }
 
 }

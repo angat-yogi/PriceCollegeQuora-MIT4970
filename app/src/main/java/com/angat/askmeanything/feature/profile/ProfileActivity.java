@@ -142,7 +142,7 @@ public class ProfileActivity extends AppCompatActivity implements DialogInterfac
                         profileOptionButton.setEnabled(false);
                         return;
                     } else if (currentState == 1) {
-                        profileOptionButton.setText("You are Friends");
+                        profileOptionButton.setText("Friends ✔");
                     } else if (currentState == 2) {
                         profileOptionButton.setText("Cancel Request");
                     } else if (currentState == 3) {
@@ -158,8 +158,8 @@ public class ProfileActivity extends AppCompatActivity implements DialogInterfac
                     profileOptionButton.setEnabled(true);
                     loadProfileOptionButton();
                 }else {
-                        Toast.makeText(ProfileActivity.this, profileResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(ProfileActivity.this, profileResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -195,6 +195,70 @@ public class ProfileActivity extends AppCompatActivity implements DialogInterfac
                                 //user want to view profile image
                                 viewFullImage(profileImage,profileUrl);
 
+                            }
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.setOnDismissListener(ProfileActivity.this);
+                    dialog.show();
+                }
+                else if (currentState==4){
+                    CharSequence[] options = new CharSequence[]{"Send Friend Request"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+                    builder.setTitle("Choose Options");
+                    builder.setItems(options, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which == 0) {
+                                performAction();
+                            }
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.setOnDismissListener(ProfileActivity.this);
+                    dialog.show();
+                }
+                else if (currentState==3){
+                    CharSequence[] options = new CharSequence[]{"Accept Request"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+                    builder.setTitle("Choose Options");
+                    builder.setItems(options, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which == 0) {
+                                performAction();
+                            }
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.setOnDismissListener(ProfileActivity.this);
+                    dialog.show();
+                }
+                else if (currentState==2){
+                    CharSequence[] options = new CharSequence[]{"Cancel Request"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+                    builder.setTitle("Choose Options");
+                    builder.setItems(options, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which == 0) {
+                                performAction();
+                            }
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.setOnDismissListener(ProfileActivity.this);
+                    dialog.show();
+                }
+                else if(currentState==1){
+                    CharSequence[] options = new CharSequence[]{"Unfriend"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+                    builder.setTitle("Choose Options");
+                    builder.setItems(options, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which == 0) {
+                                performAction();
                             }
                         }
                     });
@@ -268,9 +332,53 @@ public class ProfileActivity extends AppCompatActivity implements DialogInterfac
             }
         });
     }
+    private void performAction() {
+        progressDialog.show();
+        profileViewModel.performAction(new PerformAction(currentState+""
+                ,FirebaseAuth.getInstance().getUid(),uid)).observe(this, new Observer<GeneralResponse>() {
+            @Override
+            public void onChanged(GeneralResponse generalResponse) {
+                progressDialog.hide();
+                Toast.makeText(ProfileActivity.this, generalResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                if (generalResponse.getStatus()==200){
+                    profileOptionButton.setEnabled(true);
+                    if (currentState==4){
+                        currentState=2;
+                        profileOptionButton.setText("Cancel Request");
+
+                    }else if(currentState==3){
+                        currentState=1;
+                        profileOptionButton.setText("Friends ✔");
+                    }
+                    else if(currentState==2){
+                        currentState=4;
+                        profileOptionButton.setText("Send Request");
+                    }
+                    else if(currentState==1){
+                        currentState=4;
+                        profileOptionButton.setText("Send Request");
+
+                    }
+                    else{
+                        profileOptionButton.setEnabled(false);
+                        profileOptionButton.setText("Error");
+                    }
+                }
+            }
+        });
+    }
 
     @Override
     public void onDismiss(DialogInterface dialog) {
         profileOptionButton.setEnabled(true);
+    }
+    public static class PerformAction{
+        String operationType,uid,profileId;
+
+        public PerformAction(String operationType, String uid, String profileId) {
+            this.operationType = operationType;
+            this.uid = uid;
+            this.profileId = profileId;
+        }
     }
 }
