@@ -64,11 +64,20 @@ public class ProfileActivity extends AppCompatActivity implements DialogInterfac
         profileOptionButton = findViewById(R.id.action_button);
         profileImage = findViewById(R.id.profile_image);
         coverImage = findViewById(R.id.profile_cover);
-        toolbar = findViewById(R.id.toolBar);
+        toolbar = findViewById(R.id.toolbar);
         collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         recyclerView = findViewById(R.id.recycler_view_profile);
         progressBar = findViewById(R.id.progressbar);
         img = findViewById(R.id.test);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.icon_back_dark);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileActivity.super.onBackPressed();
+            }
+        });
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Loading...");
@@ -98,6 +107,10 @@ public class ProfileActivity extends AppCompatActivity implements DialogInterfac
         params.put("userId", FirebaseAuth.getInstance().getUid());
         if (currentState == 5) {
             params.put("current_state", currentState + "");
+        }
+        else{
+            params.put("profileId",uid);
+
         }
         profileViewModel.fetchProfileInfo(params).observe(this, new Observer<ProfileResponse>() {
             @Override

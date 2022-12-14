@@ -5,9 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.angat.askmeanything.data.remote.Repository;
 import com.angat.askmeanything.model.GeneralResponse;
-import com.angat.askmeanything.model.profile.ProfileResponse;
 
-import java.util.Map;
 
 import okhttp3.MultipartBody;
 

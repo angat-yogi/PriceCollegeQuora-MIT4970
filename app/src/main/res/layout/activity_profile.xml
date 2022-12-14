@@ -75,7 +75,7 @@
             </FrameLayout>
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolBar"
+                android:id="@+id/toolbar"
                 style="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"

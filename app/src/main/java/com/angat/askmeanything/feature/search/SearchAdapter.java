@@ -1,10 +1,12 @@
 package com.angat.askmeanything.feature.search;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.angat.askmeanything.R;
 import com.angat.askmeanything.data.remote.ApiClient;
+import com.angat.askmeanything.feature.profile.ProfileActivity;
 import com.angat.askmeanything.model.search.User;
 import com.bumptech.glide.Glide;
 
@@ -73,7 +76,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
         @Override
         public void onClick(View v) {
+            InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(),0);
 
+            context.startActivity(new Intent(context, ProfileActivity.class).putExtra("uid",userList.get(getAdapterPosition()).getUid()));
         }
     }
 }
