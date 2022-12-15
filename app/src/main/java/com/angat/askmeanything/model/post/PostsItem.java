@@ -40,6 +40,9 @@ public class PostsItem{
 	@SerializedName("email")
 	private String email;
 
+	@SerializedName("commentCount")
+	private int commentCount;
+
 	public void setProfileUrl(String profileUrl){
 		this.profileUrl = profileUrl;
 	}
@@ -134,5 +137,13 @@ public class PostsItem{
 
 	public String getEmail(){
 		return email;
+	}
+
+	public int getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
 	}
 }

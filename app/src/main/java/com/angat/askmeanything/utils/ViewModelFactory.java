@@ -6,22 +6,27 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.angat.askmeanything.data.remote.ApiClient;
 import com.angat.askmeanything.data.remote.ApiService;
+import com.angat.askmeanything.data.remote.CommentRepository;
 import com.angat.askmeanything.data.remote.Repository;
 import com.angat.askmeanything.feature.auth.LoginViewModel;
 import com.angat.askmeanything.feature.auth.homepage.MainViewModel;
 import com.angat.askmeanything.feature.auth.homepage.friends.FriendsViewModel;
 import com.angat.askmeanything.feature.auth.homepage.newsfeed.NewsFeedViewModel;
 import com.angat.askmeanything.feature.auth.homepage.newsfeed.NewsLoadActivity;
+import com.angat.askmeanything.feature.comment.CommentViewModel;
 import com.angat.askmeanything.feature.postupload.PostUploadViewModel;
 import com.angat.askmeanything.feature.profile.ProfileViewModel;
 import com.angat.askmeanything.feature.search.SearchViewModel;
+import com.angat.askmeanything.model.comment.CommentResponse;
 
 public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     private final Repository repository;
+    private final CommentRepository commentRepository;
 
     public ViewModelFactory() {
         ApiService apiService = ApiClient.getRetrofit().create(ApiService.class);
         repository = Repository.getRepository(apiService);
+        commentRepository = CommentRepository.getRepository(apiService);
     }
 
     @NonNull
@@ -46,6 +51,9 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         }
         else if(modelClass.isAssignableFrom(NewsFeedViewModel.class)){
             return (T) new NewsFeedViewModel(repository);
+        }
+        else if(modelClass.isAssignableFrom(CommentViewModel.class)){
+            return (T) new CommentViewModel(commentRepository);
         }
         else{
             throw new IllegalArgumentException("View Model not found");

@@ -13,6 +13,7 @@ import com.angat.askmeanything.feature.auth.homepage.friends.FriendsViewModel;
 import com.angat.askmeanything.model.friend.FriendResponse;
 import com.angat.askmeanything.model.post.PostResponse;
 import com.angat.askmeanything.model.post.PostsItem;
+import com.angat.askmeanything.utils.Util;
 import com.angat.askmeanything.utils.ViewModelFactory;
 import com.angat.askmeanything.utils.adapter.PostAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NewsLoadActivity extends AppCompatActivity {
+public class NewsLoadActivity extends AppCompatActivity implements Util.IOnCommentAdded {
     private NewsFeedViewModel newsFeedViewModel;
     private PostAdapter postAdapter;
     private List<PostsItem> posts = new ArrayList<>();
@@ -83,4 +84,10 @@ public class NewsLoadActivity extends AppCompatActivity {
         posts.clear();
         isFirstLoading=true;
     }
+
+    @Override
+    public void onCommentAdded(int adapterPosition) {
+        postAdapter.increasePostCommentCount(adapterPosition);
+    }
+
 }

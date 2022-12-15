@@ -1,6 +1,7 @@
 package com.angat.askmeanything.data.remote;
 
 import com.angat.askmeanything.feature.auth.LoginActivity;
+import com.angat.askmeanything.model.comment.CommentResponse;
 import com.angat.askmeanything.model.post.PostResponse;
 import com.angat.askmeanything.feature.profile.ProfileActivity;
 import com.angat.askmeanything.model.GeneralResponse;
@@ -8,6 +9,7 @@ import com.angat.askmeanything.model.auth.AuthResponse;
 import com.angat.askmeanything.model.friend.FriendResponse;
 import com.angat.askmeanything.model.profile.ProfileResponse;
 import com.angat.askmeanything.model.search.SearchResponse;
+import com.angat.askmeanything.utils.Util;
 
 import java.util.Map;
 
@@ -26,6 +28,8 @@ public interface ApiService {
    Call<GeneralResponse> uploadPost(@Body MultipartBody body);
    @POST("uploadImage")
    Call<GeneralResponse> uploadImage(@Body MultipartBody body);
+   @POST("postcomment")
+   Call<CommentResponse> postComment(@Body Util.PostComment postComment);
    @GET("loadprofileinfo")
    Call<ProfileResponse> fetchProfileInfo(@QueryMap Map<String, String> params);
    @GET("search")
@@ -36,5 +40,7 @@ public interface ApiService {
    Call<GeneralResponse> performAction(@Body ProfileActivity.PerformAction performAction);
    @GET("loadfriends")
    Call<FriendResponse> loadFriends(@Query("uid") String uid);
+   @GET("getpostcomments")
+   Call<CommentResponse> getPostComments(@Query("postId") String postId, @Query("postUserId") String postUserId);
 
 }
